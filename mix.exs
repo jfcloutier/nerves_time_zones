@@ -11,7 +11,7 @@ defmodule NervesTimeZones.MixProject do
     [
       app: :nerves_time_zones,
       version: @version,
-      elixir: "~> 1.11",
+      elixir: "~> 1.10",
       description: description(),
       package: package(),
       source_url: @source_url,
