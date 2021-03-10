@@ -6,6 +6,18 @@ defmodule NervesTimeZones.Server do
 
   alias NervesTimeZones.{Nif, Persistence}
 
+  @doc """
+  Check if a time zone is known
+  """
+  @spec check_time_zone(String.t()) :: :ok | {:error, :unknown_time_zone}
+  def check_time_zone(time_zone) do
+    if Zoneinfo.valid_time_zone?(time_zone) do
+      :ok
+    else
+      {:error, :unknown_time_zone}
+    end
+  end
+
   @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(init_args) do
     GenServer.start_link(__MODULE__, init_args, name: __MODULE__)
@@ -58,14 +70,6 @@ defmodule NervesTimeZones.Server do
   def handle_call(:tz_environment, _from, current_time_zone) do
     env = %{"TZ" => time_zone_path(current_time_zone), "TZDIR" => zoneinfo_path()}
     {:reply, env, current_time_zone}
-  end
-
-  defp check_time_zone(time_zone) do
-    if Zoneinfo.valid_time_zone?(time_zone) do
-      :ok
-    else
-      {:error, :unknown_time_zone}
-    end
   end
 
   defp set_tz_var(time_zone) do

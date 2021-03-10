@@ -39,6 +39,12 @@ defmodule NervesTimeZones do
   defdelegate get_time_zone(), to: NervesTimeZones.Server
 
   @doc """
+  Check if a time zone is known
+  """
+  @spec check_time_zone(String.t()) :: :ok | {:error, :unknown_time_zone}
+  defdelegate check_time_zone(time_zone), to: NervesTimeZones.Server
+
+  @doc """
   Return environment variables for running OS processes
 
   If you're using `System.cmd/3` to start an OS process that is time zone
